@@ -20,24 +20,19 @@ class Solution:
                 continue
             if i > 0 and a == nums[i - 1]:
                 continue
-
-            l, r = i + 1, n - 1
-            while l < r:
-                s = a + nums[l] + nums[r]
+                
+            left, right = i + 1, n - 1
+            while left < right:
+                b, c = nums[left], nums[right]
+                s = a + b + c
                 if s == 0:
-                    ans.append([a, nums[l], nums[r]])
-                    l += 1
-                    while l < r and nums[l] == nums[l - 1]:
-                        l += 1
-                    r -= 1
-                    while l < r and nums[r] == nums[r + 1]:
-                        r -= 1
+                    ans.append([a, b, c])
+                    while left < right and b == nums[left]:
+                        left += 1
+                    while left < right and c == nums[right]:
+                        right -= 1
                 elif s < 0:
-                    l += 1
+                    left += 1
                 else:
-                    r -= 1
-
+                    right -= 1
         return ans
-
-
-# @lc code=end

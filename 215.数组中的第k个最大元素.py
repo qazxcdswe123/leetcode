@@ -7,34 +7,29 @@
 # @lc code=start
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        # in place quick select with random.choice
-        def partition(left, right, pivot_index):
-            pivot = nums[pivot_index]
-            nums[pivot_index], nums[right] = nums[right], nums[pivot_index]
-            store_index = left
+        def partition(arr, left, right):
+            pivot = arr[right]
+            pi = left
             for i in range(left, right):
-                if nums[i] < pivot:
-                    nums[store_index], nums[i] = nums[i], nums[store_index]
-                    store_index += 1
-            nums[right], nums[store_index] = nums[store_index], nums[right]
-            return store_index
-        
-        def select(left, right, k_smallest):
+                if arr[i] < pivot:
+                    arr[i], arr[pi] = arr[pi], arr[i]
+                    pi += 1
+            arr[pi], arr[right] = arr[right], arr[pi]
+            return pi
+
+        def select(arr, left, right, k):
             if left == right:
-                return nums[left]
-            pivot_index = random.randint(left, right)
-            pivot_index = partition(left, right, pivot_index)
-            if k_smallest == pivot_index:
-                return nums[k_smallest]
-            elif k_smallest < pivot_index:
-                return select(left, pivot_index - 1, k_smallest)
+                return arr[left]
+
+            pi = partition(arr, left, right)
+            if pi == k:
+                return arr[pi]
+            elif pi > k:
+                return select(arr, left, pi - 1, k)
             else:
-                return select(pivot_index + 1, right, k_smallest)
-            
-        return select(0, len(nums) - 1, len(nums) - k)
+                return select(arr, pi + 1, right, k)
 
-            
+        return select(nums, 0, len(nums) - 1, len(nums) - k)
 
-        
+
 # @lc code=end
-

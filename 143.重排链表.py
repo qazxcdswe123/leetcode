@@ -29,8 +29,7 @@ class Solution:
             if not head or not head.next:
                 return head
 
-            slow = head
-            fast = head.next
+            fast = slow = head
             while fast.next and fast.next.next:
                 slow = slow.next
                 fast = fast.next.next
